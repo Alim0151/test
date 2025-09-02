@@ -1,113 +1,126 @@
-<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-  <title>Three-Body Problem Figure-Eight Orbit</title>
-  <desc>A pure CSS and SVG animation simulating a stable three-body problem solution with fading orbital trails.</desc>
+<svg width="400" height="400" viewBox="-200 -200 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Complex Three-Body System</title>
+  <desc>A pure CSS and SVG animation mimicking a chaotic three-body orbit with fading trails and complex paths.</desc>
+
   <style>
-    /* Dark background for a space-like feel */
+    /* Global styles */
     svg {
       background-color: #000;
     }
 
-    /* Keyframes for the 'drawn' orbital trail */
-    @keyframes drawPath {
-      0% {
-        stroke-dashoffset: 800;
-        opacity: 0.8;
-      }
-      100% {
-        stroke-dashoffset: 0;
-        opacity: 0;
-      }
+    /* Glow filter definition for a stronger, more realistic glow */
+    .glowing {
+      filter: url(#glowFilter);
+    }
+    
+    #glowFilter {
+      filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 10px currentColor);
     }
 
-    /* Keyframes for the orbital movement of the bodies along a path */
-    @keyframes moveBody {
-      0% {
-        offset-distance: 0%;
-      }
-      100% {
-        offset-distance: 100%;
-      }
+    /* Keyframes for the orbital movements */
+    @keyframes mainOrbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes smallOrbit1 {
+      0% { transform: translate(100px, 0) rotate(0deg); }
+      100% { transform: translate(100px, 0) rotate(360deg); }
+    }
+    @keyframes smallOrbit2 {
+      0% { transform: translate(0, 100px) rotate(0deg); }
+      100% { transform: translate(0, 100px) rotate(360deg); }
+    }
+    @keyframes smallOrbit3 {
+      0% { transform: translate(-100px, 0) rotate(0deg); }
+      100% { transform: translate(-100px, 0) rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { r: 5; }
+      50% { r: 7; }
     }
 
-    /* General styles for the main path that the bodies follow */
-    .figure-eight-path {
+    /* Keyframes for the fading trails. This is the magic part! */
+    @keyframes trail {
+      0% { stroke-dashoffset: 0; opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { stroke-dashoffset: 400; opacity: 0; }
+    }
+
+    /* Main container that rotates the entire system */
+    .container {
+      animation: mainOrbit 36s linear infinite;
+      transform-origin: 0 0; /* Center of the viewBox */
+    }
+
+    /* Styles for the orbs */
+    .body {
+      animation: pulse 4s ease-in-out infinite alternate;
+    }
+
+    /* Styles for the trails */
+    .trail {
       fill: none;
-      stroke: none; /* Make the base path invisible */
       stroke-width: 2;
-    }
-
-    /* Styles for the glowing orbital trails */
-    .orbit-trail {
-      fill: none;
-      stroke-width: 2;
+      stroke-dasharray: 400;
       stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 800; /* Must be at least the length of the path */
-      filter: drop-shadow(0 0 8px currentColor);
-      animation: drawPath 12s linear infinite;
+      opacity: 0; /* Hidden by default */
+      animation: trail 12s ease-in-out infinite;
     }
 
-    /* Styles for the glowing orbs (the 'bodies') */
-    .celestial-body {
-      fill: currentColor;
-      r: 6;
-      filter: drop-shadow(0 0 10px currentColor);
-      animation: moveBody 12s linear infinite;
-      offset-path: path("M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z");
-    }
-
-    /* Specific colors and animation delays for each body */
-    .body-1 {
-      fill: #FFD700; /* Gold */
-      animation-delay: 0s;
-      animation-direction: normal;
-    }
-
-    .trail-1 {
+    /* Specific styles for each orb and trail */
+    .gold {
       stroke: #FFD700;
-      animation-delay: 0s;
-      animation-direction: normal;
     }
-
-    .body-2 {
-      fill: #87CEEB; /* Light Blue */
-      animation-delay: -4s; /* Offset by a third of the animation duration */
-      animation-direction: reverse; /* Make this one travel in reverse */
-    }
-
-    .trail-2 {
+    .blue {
       stroke: #87CEEB;
-      animation-delay: -4s;
-      animation-direction: reverse;
     }
-
-    .body-3 {
-      fill: #DDA0DD; /* Plum */
-      animation-delay: -8s;
-      animation-direction: normal;
-    }
-
-    .trail-3 {
+    .plum {
       stroke: #DDA0DD;
-      animation-delay: -8s;
-      animation-direction: normal;
+    }
+
+    /* Nesting to create complex movement */
+    .g1 {
+      animation: smallOrbit1 12s linear infinite reverse;
+    }
+    .g2 {
+      animation: smallOrbit2 12s linear infinite;
+    }
+    .g3 {
+      animation: smallOrbit3 12s linear infinite reverse;
     }
 
   </style>
 
-  <!-- This is the path the bodies will follow. It is hidden, but its shape is used by offset-path. -->
-  <path class="figure-eight-path" id="figure-eight-path" d="M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z" />
-  <path class="figure-eight-path" id="figure-eight-path-copy" d="M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z" />
-  <path class="figure-eight-path" id="figure-eight-path-copy-2" d="M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z" />
+  <defs>
+    <filter id="glowFilter">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"></feGaussianBlur>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0
+                                                    0 1 0 0 0
+                                                    0 0 1 0 0
+                                                    0 0 0 5 -1" result="glow"></feColorMatrix>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+        <feMergeNode in="glow"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
 
-  <!-- The trails that fade out -->
-  <path class="orbit-trail trail-1" d="M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z" />
-  <path class="orbit-trail trail-2" d="M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z" />
-  <path class="orbit-trail trail-3" d="M200,100 C200,170 140,200 100,200 C60,200 0,170 0,100 S60,0 100,0 C140,0 200,30 200,100 Z" />
+  <g class="container">
 
-  <!-- The three celestial bodies -->
-  <circle class="celestial-body body-1"></circle>
-  <circle class="celestial-body body-2"></circle>
-  <circle class="celestial-body body-3"></circle>
+    <g class="glowing g1">
+      <path class="trail gold" d="M0,0 C-50,-50 -100,0 -100,0 C-100,0 -50,50 0,0"></path>
+      <circle class="body" fill="#FFD700"></circle>
+    </g>
 
+    <g class="glowing g2">
+      <path class="trail blue" d="M0,0 C-50,-50 -100,0 -100,0 C-100,0 -50,50 0,0"></path>
+      <circle class="body" fill="#87CEEB"></circle>
+    </g>
+
+    <g class="glowing g3">
+      <path class="trail plum" d="M0,0 C-50,-50 -100,0 -100,0 C-100,0 -50,50 0,0"></path>
+      <circle class="body" fill="#DDA0DD"></circle>
+    </g>
+    
+  </g>
 </svg>
