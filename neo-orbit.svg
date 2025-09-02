@@ -1,6 +1,6 @@
 <svg width="600" height="400" viewBox="-300 -200 600 400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <title>Figure-8 Three-Body Orbit</title>
-  <desc>A pure SVG animation of the figure-eight solution to the three-body problem, with fading trails.</desc>
+  <title>Figure-8 Three-Body Orbit with Fading Trails</title>
+  <desc>A pure SVG animation of the figure-eight solution to the three-body problem, with continuous fading trails behind each orb.</desc>
 
   <style>
     /* Dark background for a space-like feel */
@@ -12,26 +12,32 @@
     .glowing {
       filter: drop-shadow(0 0 5px currentColor);
     }
-    .glowing-trail {
-      filter: drop-shadow(0 0 3px currentColor);
-    }
     
+    /* Keyframes for the orbital movement of the bodies */
+    @keyframes moveBody {
+      from { offset-distance: 0%; }
+      to { offset-distance: 100%; }
+    }
+
     /* Keyframes for the fading trail effect */
-    @keyframes trail-draw {
+    @keyframes trail-fade {
       0% {
-        stroke-dashoffset: 0;
+        stroke-dashoffset: 800;
+        opacity: 0.1;
+      }
+      50% {
         opacity: 1;
       }
       100% {
-        stroke-dashoffset: 800;
-        opacity: 0;
+        stroke-dashoffset: 0;
+        opacity: 0.1;
       }
     }
 
     /* Styles for the invisible motion path */
     .motion-path {
       fill: none;
-      stroke: none; /* The path is invisible */
+      stroke: none;
     }
 
     /* Styles for the orbs (the 'bodies') */
@@ -48,46 +54,50 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-dasharray: 800; /* Must be at least the length of the path */
-      opacity: 0;
-      animation: trail-draw 12s linear infinite;
+      opacity: 0.1;
+      animation: trail-fade 12s linear infinite;
     }
 
     /* Colors and animation delays for each orb and its trail */
-    .body-1 { fill: #FFD700; /* Gold */ }
-    .trail-1 { stroke: #FFD700; }
-    
-    .body-2 { fill: #87CEEB; /* Light Blue */ }
-    .trail-2 { stroke: #87CEEB; }
+    .gold { stroke: #FFD700; }
+    .blue { stroke: #87CEEB; }
+    .plum { stroke: #DDA0DD; }
 
-    .body-3 { fill: #DDA0DD; /* Plum */ }
-    .trail-3 { stroke: #DDA0DD; }
+    .trail-1 { animation-delay: 0s; }
+    .trail-2 { animation-delay: -4s; }
+    .trail-3 { animation-delay: -8s; }
 
   </style>
 
+  <!-- The single, invisible figure-eight path that all bodies will follow -->
   <path id="figure-eight" class="motion-path" d="M150,0 C150,150 100,200 0,200 C-100,200 -150,150 -150,0 C-150,-150 -100,-200 0,-200 C100,-200 150,-150 150,0 Z" />
 
-  <use xlink:href="#figure-eight" class="trail trail-1 glowing-trail" style="animation-delay: 0s;" />
-  <use xlink:href="#figure-eight" class="trail trail-2 glowing-trail" style="animation-delay: -4s;" />
-  <use xlink:href="#figure-eight" class="trail trail-3 glowing-trail" style="animation-delay: -8s;" />
-  
-  <g class="glowing">
-    <circle class="body body-1">
+  <!-- The trails that fade out -->
+  <path d="M150,0 C150,150 100,200 0,200 C-100,200 -150,150 -150,0 C-150,-150 -100,-200 0,-200 C100,-200 150,-150 150,0 Z" class="trail trail-1 glowing" style="stroke: #FFD700;" />
+  <path d="M150,0 C150,150 100,200 0,200 C-100,200 -150,150 -150,0 C-150,-150 -100,-200 0,-200 C100,-200 150,-150 150,0 Z" class="trail trail-2 glowing" style="stroke: #87CEEB;" />
+  <path d="M150,0 C150,150 100,200 0,200 C-100,200 -150,150 -150,0 C-150,-150 -100,-200 0,-200 C100,-200 150,-150 150,0 Z" class="trail trail-3 glowing" style="stroke: #DDA0DD;" />
+
+  <!-- Orb 1 -->
+  <g class="glowing" style="fill: #FFD700;">
+    <circle class="body" >
       <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="0s">
         <mpath xlink:href="#figure-eight" />
       </animateMotion>
     </circle>
   </g>
 
-  <g class="glowing">
-    <circle class="body body-2">
+  <!-- Orb 2 -->
+  <g class="glowing" style="fill: #87CEEB;">
+    <circle class="body">
       <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-4s">
         <mpath xlink:href="#figure-eight" />
       </animateMotion>
     </circle>
   </g>
 
-  <g class="glowing">
-    <circle class="body body-3">
+  <!-- Orb 3 -->
+  <g class="glowing" style="fill: #DDA0DD;">
+    <circle class="body">
       <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-8s">
         <mpath xlink:href="#figure-eight" />
       </animateMotion>
