@@ -13,29 +13,12 @@
       height: 100vh;
       overflow: hidden;
     }
-    /* Fullscreen background */
-    .bg-moving{
+
+    .bg-moving {
       position: fixed;
       inset: 0;
       z-index: -1;
-      overflow: hidden;
-      background: #000;
-    }
-    .bg-moving::before{
-      content:"";
-      position:absolute; inset: -5%;
-      background-image: url("assets/neo-orbits.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: brightness(0.8) saturate(1.1);
-      transform: scale(1.05);
-      animation: kb 18s ease-in-out infinite alternate;
-    }
-    @keyframes kb{
-      0%   { transform: scale(1.05) translate3d(0,0,0); background-position: 52% 48%; }
-      50%  { transform: scale(1.12) translate3d(1.2%, -1.2%, 0); background-position: 48% 52%; }
-      100% { transform: scale(1.18) translate3d(-1.4%, 1.4%, 0); background-position: 50% 50%; }
+      background: url("assets/neo-orbit.gif") no-repeat center center / cover;
     }
     .content {
       position: relative;
