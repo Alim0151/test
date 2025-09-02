@@ -1,0 +1,90 @@
+ChatGPT said:
+
+Got it ✅ Let’s do this from scratch so you can test cleanly on a brand-new GitHub repo.
+
+🚀 Step 1. Create the repo
+
+Go to GitHub
+.
+
+Create a new repository → Name it something like bg-test.
+
+Tick “Public”.
+
+Tick “Add a README” (optional).
+
+Click Create repository.
+
+🚀 Step 2. Add files
+
+In your repo, click Add file → Upload files. Upload:
+
+index.html (we’ll create it below).
+
+neo-orbits.png (your background image) inside an assets/ folder.
+
+Repo structure will look like:
+
+bg-test/
+ ├── index.html
+ └── assets/
+       └── neo-orbits.png
+
+🚀 Step 3. Create index.html
+
+Here’s a minimal HTML page that uses your image as a moving background:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background Test</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    /* Fullscreen background */
+    .bg-moving{
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      background: #000;
+    }
+    .bg-moving::before{
+      content:"";
+      position:absolute; inset: -5%;
+      background-image: url("assets/neo-orbits.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: brightness(0.8) saturate(1.1);
+      transform: scale(1.05);
+      animation: kb 18s ease-in-out infinite alternate;
+    }
+    @keyframes kb{
+      0%   { transform: scale(1.05) translate3d(0,0,0); background-position: 52% 48%; }
+      50%  { transform: scale(1.12) translate3d(1.2%, -1.2%, 0); background-position: 48% 52%; }
+      100% { transform: scale(1.18) translate3d(-1.4%, 1.4%, 0); background-position: 50% 50%; }
+    }
+    .content {
+      position: relative;
+      top: 40%;
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-moving"></div>
+  <div class="content">
+    <h1>🌌 Hello World</h1>
+    <p>This is my animated background test on GitHub Pages!</p>
+  </div>
+</body>
+</html>
